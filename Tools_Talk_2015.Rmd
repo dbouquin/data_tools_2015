@@ -5,7 +5,7 @@ output: html_document
 ---
 
 The following code should be run in R Studio. All corresponding documentation is available on GitHub [here](https://github.com/dbouquin/data_tools_2015).   
-This markdown file can also be viewed on R Pubs [here](http://rpubs.com/dbouquin/DataTools_2015).
+This markdown file can also be viewed on R Pubs [here](http://rpubs.com/dbouquin/data_tools_2015).
 
 The following packages may be useful to you but will not be the focus of the demonstrations during the Data Tools Forum:
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
