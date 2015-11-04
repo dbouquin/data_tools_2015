@@ -59,7 +59,7 @@ di_sub2
 
 # Try out filtering on the larger dataset for diamonds where the cut is ideal
 diamonds_ideal <- filter(diamonds, cut=="Ideal")
-head(diamonds_ideal)
+head(diamonds_ideal) 
 
 # Use mutate to add a variable to the ideal diamonds dataset
 diamonds_ideal <- mutate(diamonds_ideal, price_per_carat = price/carat)
@@ -77,17 +77,16 @@ new_diamonds <- di_sub2[,2:10]
 # print the new object
 new_diamonds
 ```
-    
+There are many other functions available in `dplyr` for munging. Check out further documentation [here](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).    
+
 <h4>Data Analysis through visualization</h4>
+We'll start with some very simple base plots and move on to using `ggplot2`
 ```{r}
 # Base plotting for comparison
 base_scatter <- plot(diamonds$carat, diamonds$cut,
   xlab = "carat", ylab = "cut")
-# Print the plot to the panel
-base_scatter
 # Try another base plot
 base_price <- plot(diamonds$carat, diamonds$price)
-base_price
 # Now we'll check out how base plotting differs from ggplot2 functionality
 # Make a box plot
 diamonds_box <- ggplot(diamonds, aes(y= carat, x= cut)) + geom_boxplot()
@@ -100,41 +99,25 @@ diamonds_vpoint <- diamonds_violin + geom_point()
 diamonds_vpoint
 ```
 
-Heatmap example from [R-Blogger](http://www.r-bloggers.com/simplest-possible-heatmap-with-ggplot2/)
+A more advanced example: build a heatmap.
 ```{r}
-library(reshape2)
-library(RColorBrewer)
+library(RColorBrewer) # for our color palette
 
-# Data creation and pre-processing
-nRow <- 9
-nCol <- 16
-myData <- matrix(rnorm(nRow * nCol), ncol = nCol)
-rownames(myData) <- letters[1:nRow]
-colnames(myData) <- LETTERS[1:nCol]
+diamonds_heat <- select(diamonds_ideal, color, clarity, price_per_carat)
 
-# Replace with numbers that actually have a relationship:
-for(ii in 2:ncol(myData)){  myData[, ii] <- myData[, ii-1] + rnorm(nrow(myData))  }
-for(ii in 2:nrow(myData)){  myData[ii, ] <- myData[ii-1, ] + rnorm(ncol(myData))  }
+str(diamonds_heat)
 
-# For melt() to work seamlessly, myData has to be a matrix.
-longData <- melt(myData)
+diamonds_heat <- diamonds_heat[1:1500,]
 
-# Optionally, reorder both the row and column variables in any order
-# Here, they are sorted by mean value
-longData$Var1 <- factor(longData$Var1, names(sort(with(longData, by(value, Var1, mean)))))
-longData$Var2 <- factor(longData$Var2, names(sort(with(longData, by(value, Var2, mean)))))
-
-# Define palette
 myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")), space="Lab")
 
-# Make the headmap!
-zp1 <- ggplot(longData,
-              aes(x = Var2, y = Var1, fill = value))
-zp1 <- zp1 + geom_tile()
-zp1 <- zp1 + scale_fill_gradientn(colours = myPalette(100))
-zp1 <- zp1 + scale_x_discrete(expand = c(0, 0))
-zp1 <- zp1 + scale_y_discrete(expand = c(0, 0))
-zp1 <- zp1 + coord_equal()
-zp1 <- zp1 + theme_bw()
-zp1
+hm <- ggplot(diamonds_heat,
+              aes(x = color, y = clarity, fill = price_per_carat))
+hm <- hm + geom_tile()
+hm <- hm + scale_fill_gradientn(colours = myPalette(100))
+hm <- hm + scale_x_discrete(expand = c(0, 0))
+hm <- hm + scale_y_discrete(expand = c(0, 0))
+hm <- hm + coord_equal()
+hm <- hm + theme_bw()
+hm
 ```
