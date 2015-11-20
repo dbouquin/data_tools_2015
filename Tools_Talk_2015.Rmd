@@ -65,7 +65,7 @@ head(diamonds_ideal)
 diamonds_ideal <- mutate(diamonds_ideal, price_per_carat = price/carat)
 head(diamonds_ideal)
 
-# Write one of our new objects (the first one we created) to a CSV file in your working directory
+# Write one of our new objects to a CSV file in your working directory
 file <- write.csv(diamonds_ideal,"ideal.csv")
 
 # Read in the CSV file you just created
