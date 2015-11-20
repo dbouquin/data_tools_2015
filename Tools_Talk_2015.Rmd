@@ -65,17 +65,34 @@ head(diamonds_ideal)
 diamonds_ideal <- mutate(diamonds_ideal, price_per_carat = price/carat)
 head(diamonds_ideal)
 
-# Write one of our new objects to a CSV file in your working directory
-file <- write.csv(di_sub,"di_sub.csv")
+# Write one of our new objects (the first one we created) to a CSV file in your working directory
+file <- write.csv(diamonds_ideal,"ideal.csv")
 
 # Read in the CSV file you just created
-di_sub2 <- read.csv("di_sub.csv")
+ideal <- read.csv("ideal.csv")
+colnames(ideal)
 
-# Subset the dataset you just read in and asign it to a new object
-new_diamonds <- di_sub2[,2:10]
+# Subset the dataset you just read in and asign it to a new object (remove the "X" column)
+new_ideal <- ideal[,2:12]
+colnames(new_ideal)
 
-# print the new object
-new_diamonds
+# print some records from the new object
+head(new_ideal)
+str(new_ideal)
+
+# go back to the ideal diamonds we used to creat our new diamonds
+depth_data <- mutate(diamonds_ideal, price_by_depth = price/depth)
+head(depth_data)
+
+# cut out just the column we want
+keeps <- "price_by_depth"
+depth_col <- depth_data[keeps]
+
+# use cbind to bind the depth column to our new_ideal data
+
+new_ideal <- cbind(new_ideal, depth_col)
+head(new_ideal)
+
 ```
 There are many other functions available in `dplyr` for munging. Check out further documentation [here](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html).    
 
