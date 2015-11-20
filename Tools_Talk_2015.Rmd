@@ -14,7 +14,7 @@ library(haven)
 library(xlsx)
 ```
 
-These packages will be used and discussed during the Wrangling portion of the presentation:
+These packages will be used or discussed during the Wrangling portion of the presentation:
 ```{r, warning=FALSE, error=FALSE, message=FALSE}
 library(dplyr) # We will use this package during demonstrations
 library(tidyr) # more data restructuring
